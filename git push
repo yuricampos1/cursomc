@@ -1,0 +1,23 @@
+[33mcommit af32679b9a60f152ab0f90b87184c31d8d52f8fe[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: Yuri Campos <yuricampos1@gmail.com>
+Date:   Wed Jul 10 11:39:44 2019 -0300
+
+    Banco de ddados H2 e criacao automatica de base de dados
+
+[33mcommit 3281cca6681809c077ff206aef2a312a11aa9e2f[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: Yuri Campos <yuricampos1@gmail.com>
+Date:   Tue Jul 9 16:06:27 2019 -0300
+
+    Testando a primeira classe de dominio - Categoria
+
+[33mcommit ddc62f9a5568ad1f8707f4196dc8f3bf6b51a2c4[m
+Author: Yuri Campos <yuricampos1@gmail.com>
+Date:   Tue Jul 9 14:38:44 2019 -0300
+
+    testando rest
+
+[33mcommit fa005b5176c05b38398c22f7c051bb789fb840f4[m
+Author: Yuri Campos <yuricampos1@gmail.com>
+Date:   Tue Jul 9 10:22:20 2019 -0300
+
+    Projeto Criado
