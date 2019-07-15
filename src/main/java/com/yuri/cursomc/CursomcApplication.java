@@ -1,5 +1,6 @@
 package com.yuri.cursomc;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,20 @@ import com.yuri.cursomc.domain.Cidade;
 import com.yuri.cursomc.domain.Cliente;
 import com.yuri.cursomc.domain.Endereco;
 import com.yuri.cursomc.domain.Estado;
+import com.yuri.cursomc.domain.Pagamento;
+import com.yuri.cursomc.domain.PagamentoComBoleto;
+import com.yuri.cursomc.domain.PagamentoComCartao;
+import com.yuri.cursomc.domain.Pedido;
 import com.yuri.cursomc.domain.Produto;
+import com.yuri.cursomc.domain.enums.EstadoPagamento;
 import com.yuri.cursomc.domain.enums.TipoCliente;
 import com.yuri.cursomc.repositories.CategoriaRepository;
 import com.yuri.cursomc.repositories.CidadeRepository;
 import com.yuri.cursomc.repositories.ClienteRepository;
 import com.yuri.cursomc.repositories.EnderecoRepository;
 import com.yuri.cursomc.repositories.EstadoRepository;
+import com.yuri.cursomc.repositories.PagamentoRepository;
+import com.yuri.cursomc.repositories.PedidoRepository;
 import com.yuri.cursomc.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -36,6 +44,10 @@ public class CursomcApplication implements CommandLineRunner {
 	private ClienteRepository clienteRepository;
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+	@Autowired
+	private PedidoRepository pedidoRepository;
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -51,11 +63,9 @@ public class CursomcApplication implements CommandLineRunner {
 		Produto p2 = new Produto(null, "Impressora", 800.00);
 		Produto p3 = new Produto(null, "Mouse", 80.00);
 
-		// Associação de categorias com produtos
 		cat1.getProdutos().addAll(Arrays.asList(p1, p2, p3));
 		cat2.getProdutos().addAll(Arrays.asList(p2));
 
-		// Associação de produtos com categorias
 		p1.getCategorias().addAll(Arrays.asList(cat1));
 		p2.getCategorias().addAll(Arrays.asList(cat1, cat2));
 		p3.getCategorias().addAll(Arrays.asList(cat1));
@@ -64,20 +74,16 @@ public class CursomcApplication implements CommandLineRunner {
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
 
 		/*------------- ESTADO/CIDADES ----------------*/
-		// Declaração Estados
 		Estado est1 = new Estado(null, "Minas Gerais");
 		Estado est2 = new Estado(null, "São Paulo");
 
-		// Declaração Cidades
 		Cidade c1 = new Cidade(null, "Uberlândia", est1);
 		Cidade c2 = new Cidade(null, "São Paulo", est2);
 		Cidade c3 = new Cidade(null, "São José dos Campo", est2);
 
-		// Associação de Estados > Cidades
 		est1.getCidades().addAll(Arrays.asList(c1));
 		est2.getCidades().addAll(Arrays.asList(c2, c3));
 
-		// Salvar estados e cidades
 		estadoRepository.saveAll(Arrays.asList(est1, est2));
 		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
 
@@ -93,6 +99,25 @@ public class CursomcApplication implements CommandLineRunner {
 
 		clienteRepository.saveAll(Arrays.asList(cli1));
 		enderecoRepository.saveAll(Arrays.asList(e1, e2));
+		
+		/*-------------PEDIDO PAGAMENTO----------------*/
+		
+		SimpleDateFormat sdf= new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		
+		Pedido ped1 = new Pedido(null, sdf.parse("15/07/2019 10:40"), cli1, e1);
+		Pedido ped2 = new Pedido(null, sdf.parse("10/08/2019 18:37"), cli1, e2);
+		
+		Pagamento pagto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+		ped1.setPagamento(pagto1);
+		
+		Pagamento pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2019 00:00"), null);
+		ped2.setPagamento(pagto2);
+		
+		cli1.getPedidos().addAll(Arrays.asList(ped1,ped2));
+		
+		pedidoRepository.saveAll(Arrays.asList(ped1,ped2));
+		pagamentoRepository.saveAll(Arrays.asList(pagto1,pagto2));
+		
 	}
 
 }
