@@ -13,7 +13,7 @@ import com.yuri.cursomc.services.DBService;
 @Configuration
 @Profile("test")
 public class TestConfig {
-
+//teste
 	@Autowired
 	private DBService dbService;
 	
